@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./boot.nix
+      ./suckless.nix
     ];
 
   nixpkgs.config.allowUnfree = true; # required for nvidia drivers
@@ -26,6 +27,14 @@
     lidSwitchDocked = "ignore"; # behavior when another screen is added.
     lidSwitchExternalPower = "ignore"; # behavior when system is on external power.
   };
+
+  # Filesystem options
+  # btrfs autoScrub
+  services.btrfs = {
+    autoScrub.enable = true;
+    autoScrub.interval = "monthly";
+  };
+  swapDevices = [ { device = "/.swap/swapfile"; } ];
 
   # VM guest settings
   #services.spice-vdagentd.enable = true;
@@ -121,6 +130,7 @@
   # GPU Drivers: Optimus Laptop Config
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl.enable = true;
+  #hardware.opengl.driSupport32Bit = true; # Seems to cause screen flickering on nvidia card. Proton seems to work fine without it.
   hardware.nvidia = {
     modesetting.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
@@ -169,7 +179,7 @@
     # ];
   };
 
-  # set default shell
+  # set default interactive shell
   programs.zsh = {
     enable = true;
     enableBashCompletion = true;
@@ -233,6 +243,7 @@
   };
 
   # Steam - unfree
+  hardware.steam-hardware.enable = true;
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
@@ -249,28 +260,30 @@
     # openssh.authorizedKeys.keys = [ "ssh-dss AAAAB3Nza... alice@foobar" ];
     packages = with pkgs; [
       discord # unfree
-      (dmenu.overrideAttrs (oldAttrs: rec {
-        # Using a local file
-        configFile = writeText "config.def.h" (builtins.readFile ./.config/dmenu/dmenu-5.0.h);
-        # Or one pulled from GitHub
-        # configFile = writeText "config.def.h" (builtins.readFile "${fetchFromGitHub { owner = "LukeSmithxyz"; repo = "st"; rev = "8ab3d03681479263a11b05f7f1b53157f61e8c3b"; sha256 = "1brwnyi1hr56840cdx0qw2y19hpr0haw4la9n0rqdn0r2chl8vag"; }}/config.h");
-        postPatch = "${oldAttrs.postPatch}\n cp ${configFile} config.def.h";
-      }))
+      feh
+      #fractal # Matrix client written in rust
       gnucash
+      godot
       isync
       libreoffice
+      looking-glass-client # GPU Passthrough without an external monitor!
+      lutris
+      monado # open source xr runtime
       mpv
       mu
       #mupdf
       newsboat
-      #nyxt
       pass
       pulsemixer
       qutebrowser
       ranger
+      rofi
+      rofi-pass
+      sidequest
       sxiv
       ueberzug
       youtube-dl
+      xclip
       zathura
     ];
   };
@@ -296,7 +309,7 @@
     emacsPackages.treemacs
     emacsPackages.treeview
     emacsPackages.vterm
-    fd
+    fd # file indexer, improves performance in doom emacs
     gcc
     git
     gnumake
@@ -305,6 +318,7 @@
     man
     pciutils
     pinentry
+    polkit
     python3
     ripgrep
     rust-analyzer # rust language server
@@ -315,10 +329,15 @@
     sshfs
     sumneko-lua-language-server
     system76-firmware
-    system76-keyboard-configurator
+    system76-keyboard-configurator # allows you to customize laptop keyboard as well!
     tldr
+    usbutils
     virt-manager
     # wget
+    wine
+    winetricks
+    wine-staging
+    wine-wayland
     zsh-nix-shell
   ];
 
@@ -328,15 +347,10 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
+    pinentryFlavor = "gnome3";
   };
 
   # List services that you want to enable:
-
-  # btrfs autoScrub
-  services.btrfs = {
-    autoScrub.enable = true;
-    autoScrub.interval = "monthly";
-  };
 
   # Redshift
   location = {
