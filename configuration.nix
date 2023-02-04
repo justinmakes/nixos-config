@@ -8,7 +8,6 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./boot.nix
       ./suckless.nix
     ];
 
@@ -19,6 +18,14 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  # point bootloader to partition containing luks (nvme0n1p2)
+  boot.initrd.luks.devices = {
+    root = {
+      device = "/dev/disk/by-uuid/07129496-ae5d-4ec3-9ace-d99e45e60650";
+      allowDiscards = true; # allow TRIM requests to the underlying device
+    };
+  };
 
   # systemd-logind
   services.logind = {
