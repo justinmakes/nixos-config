@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./nut.nix
       ./suckless.nix
     ];
 
@@ -176,7 +177,21 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  services.xserver.libinput = {
+    enable = true;
+    #mouse.accelProfile = "flat";
+    #mouse.accelSpeed = "-1";
+    #mouse.dev = "/dev/input/by-id/usb-Ploopy_Corporation_Trackball-if02-event-mouse"
+    #mouse.naturalScrolling = false;
+    #mouse.transformationMatrix = "1.0 0 0 0 1.0 0 0 0 1.00"
+
+    # see 'man libinput' for available options:
+    #mouse.additionalOptions = ''
+    #  Option "DragLockButtons"\n
+    #  Option AccelProfile "flat"\n
+    #  Option AccelSpeed -1\n
+    #  '';
+  };
 
   # See source code at: https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/security/sudo.nix
   security.sudo = {
@@ -271,6 +286,7 @@
       #fractal # Matrix client written in rust
       gnucash
       godot
+      hplip
       isync
       libreoffice
       looking-glass-client # GPU Passthrough without an external monitor!
