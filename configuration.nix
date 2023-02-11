@@ -281,12 +281,15 @@
     extraGroups = [ "audio" "libvirtd" "networkmanager" "wheel" ]; # Enable ‘sudo’ for the user.
     # openssh.authorizedKeys.keys = [ "ssh-dss AAAAB3Nza... alice@foobar" ];
     packages = with pkgs; [
+      bc
+      blender
       discord # unfree
       feh
       #fractal # Matrix client written in rust
       gnucash
       godot
       hplip
+      imagemagick
       isync
       libreoffice
       looking-glass-client # GPU Passthrough without an external monitor!
@@ -295,6 +298,7 @@
       mpv
       mu
       #mupdf
+      ncspot
       newsboat
       pass
       pulsemixer
@@ -311,6 +315,10 @@
     ];
   };
 
+  # Automatically run nix garbage collection
+  nix.gc.automatic = true;
+  nix.gc.dates = "weekly";
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -319,6 +327,8 @@
     clippy # rust code linter
     cmake
     coreutils
+    curl
+    #direnv # Run 'nix develop' automatically when you cd into project directory (autoloads nix environment)
     emacs
     emacsPackages.async
     emacsPackages.elfeed
@@ -327,6 +337,7 @@
     emacsPackages.org
     emacsPackages.org-roam
     emacsPackages.ranger
+    emacsPackages.sqlite3
     emacsPackages.tramp
     emacsPackages.tree-sitter
     emacsPackages.treemacs
@@ -335,10 +346,13 @@
     fd # file indexer, improves performance in doom emacs
     gcc
     git
+    git-crypt
     gnumake
     htop
     lua
     man
+    neofetch
+    #nix-direnv # helps with caching for 'direnv'
     pciutils
     pinentry
     polkit
@@ -354,6 +368,7 @@
     system76-firmware
     system76-keyboard-configurator # allows you to customize laptop keyboard as well!
     tldr
+    unzip
     usbutils
     virt-manager
     # wget
