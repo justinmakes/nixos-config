@@ -8,40 +8,27 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "ahci" "ohci_pci" "ehci_pci" "pata_atiixp" "firewire_ohci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/7230fc84-df44-4ca1-9a17-06a85c651a76";
+    { device = "/dev/sda1";
       fsType = "btrfs";
       options = [ "subvol=btrfsroot/@" ];
     };
 
-  boot.initrd.luks.devices."root".device = "/dev/disk/by-uuid/07129496-ae5d-4ec3-9ace-d99e45e60650";
-
   fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/7230fc84-df44-4ca1-9a17-06a85c651a76";
+    { device = "/dev/sda1";
       fsType = "btrfs";
       options = [ "subvol=btrfsroot/@home" ];
     };
 
-  fileSystems."/.swap" =
-    { device = "/dev/disk/by-uuid/7230fc84-df44-4ca1-9a17-06a85c651a76";
+  fileSystems."/swap" =
+    { device = "/dev/sda1";
       fsType = "btrfs";
       options = [ "subvol=btrfsroot/@swap" ];
-    };
-
-  fileSystems."/.snapshots" =
-    { device = "/dev/disk/by-uuid/7230fc84-df44-4ca1-9a17-06a85c651a76";
-      fsType = "btrfs";
-      options = [ "subvol=btrfsroot/@snapshots" ];
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/42A3-7965";
-      fsType = "vfat";
     };
 
   swapDevices = [ ];
@@ -51,10 +38,9 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp36s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp0s20f3.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp2s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp3s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

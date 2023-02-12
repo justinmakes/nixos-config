@@ -1,7 +1,7 @@
 let
   vid = "051D";
   pid = "0003";
-  upsname = "apcsmx1500-b";
+  upsname = "apcsmx1500-a";
   secrets = import ./.secrets.nix;
   pass-master = secrets.nutmaster; # master password for nut
   pass-local = secrets.nutlocal; # slave/local password for nut

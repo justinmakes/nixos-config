@@ -9,96 +9,61 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./nut.nix
-      ./suckless.nix
     ];
 
-  nixpkgs.config.allowUnfree = true; # required for nvidia drivers
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # point bootloader to partition containing luks (nvme0n1p2)
-  boot.initrd.luks.devices = {
-    root = {
-      device = "/dev/disk/by-uuid/07129496-ae5d-4ec3-9ace-d99e45e60650";
-      allowDiscards = true; # allow TRIM requests to the underlying device
+  # Use the GRUB 2 boot loader.
+  boot.loader.grub.enable = true;
+  boot.loader.grub.version = 2;
+  # boot.loader.grub.efiSupport = true;
+  # boot.loader.grub.efiInstallAsRemovable = true;
+  # boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  # Define on which hard drive you want to install Grub.
+  #boot.loader.grub.device = "/dev/disk/by-uuid/991eacbb-8530-4766-a2e2-4c44592b9212"; # or "nodev" for efi only
+  boot.loader.grub.devices = [ "/dev/sda" "/dev/sdb" "/dev/sdc" "/dev/sdd" ];
+  
+  fileSystems = {
+    "/" = {
+      #device = "/dev/disk/by-uuid/991eacbb-8530-4766-a2e2-4c44592b9212";
+      device = "/dev/sda1";
+      fsType = "btrfs";
+      options = [ "defaults" "noatime" "subvolid=257" ];
+    };
+    "/home" = {
+      #device = "/dev/disk/by-uuid/991eacbb-8530-4766-a2e2-4c44592b9212";
+      device = "/dev/sda1";
+      fsType = "btrfs";
+      options = [ "defaults" "noatime" "subvolid=258" ];
+    };
+    "/swap" = {
+      #device = "/dev/disk/by-uuid/991eacbb-8530-4766-a2e2-4c44592b9212";
+      device = "/dev/sda1";
+      fsType = "btrfs";
+      options = [ "defaults" "noatime" "subvolid=259" ];
     };
   };
 
-  # systemd-logind
-  services.logind = {
-    killUserProcesses = true;
-    lidSwitch = "ignore";
-    lidSwitchDocked = "ignore"; # behavior when another screen is added.
-    lidSwitchExternalPower = "ignore"; # behavior when system is on external power.
-  };
+  services.btrfs.autoScrub.enable = true;
+  services.btrfs.autoScrub.interval = "monthly";
 
-  # Filesystem options
-  # btrfs autoScrub
-  services.btrfs = {
-    autoScrub.enable = true;
-    autoScrub.interval = "monthly";
-  };
-  swapDevices = [ { device = "/.swap/swapfile"; } ];
-
-  # VM guest settings
-  #services.spice-vdagentd.enable = true;
-  #services.qemuGuest = {
-  #  enable = true;
-  #  # package = pkgs.qemu_kvm.ga # this is default value!
+  # UPS config
+  #power.ups = {
+  #  enable = false;
   #};
 
-  # Virtualization - Libvirtd
-  programs.dconf.enable = true;
-  virtualisation.libvirtd = {
-    enable = true;
-    #package = pkgs.libvirt;
-    #allowedBridges = [ "virbr0" ];
-    #extraConfig = ""; # extra contents of libvirtd.conf
-    #extraOptions = [ "--verbose" ]; # command line arguments e.g. "--verbose"
-    #onBoot = "start";
-    #onShutdown = "suspend"; # suspend will attempt to save the state of the guests on host shutdown
-    qemu = {
-      #package = pkgs.qemu;
-      ovmf = {
-        #enable = true;
-        #packages = [ pkgs.OVMF.fd ];
-      };
-      runAsRoot = false; # default true
-      #swtpm = {};
-      #verbatimConfig = ""; # contents written to qemu.conf
-    };
-  };
-
-  # Laptop power management
-  powerManagement = {
-    enable = true;
-    #cpuFreqGovernor = ""; # ondemand/powersave/performance
-    #cpufreq.max = <integer>;
-    #cpufreq.min = <integer>;
-    #powerDownCommands = ""; # Commands executed when on shutdown/suspend/hibernate. Use strings concatenated with "\n"
-    #powertop.enable = false;
-    #powerUpCommands = "";
-    #resumeCommands = "";
-    #scsiLinkPolicy = "max_performance";
-  };
-
+  # Networking
   networking = {
-    interfaces.enp0s13f0u1u3.ipv4.addresses = [ {
-      address = "192.168.1.31";
+    interfaces.enp2s0.ipv4.addresses = [ {
+      address = "192.168.1.41";
       prefixLength = 24;
     } ];
     defaultGateway = "192.168.1.1";
     nameservers = [ "192.168.1.1" ];
     enableIPv6 = false;
-    hostName = "oryp8"; # Define your hostname.
+    hostName = "srv-nas";
 
     # Pick only one of the below networking options.
-    wireless.enable = false;  # Enables wireless support via wpa_supplicant.
-    networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+    # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+    networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
     # Configure network proxy if necessary
     # proxy.default = "http://user:password@proxy:port/";
@@ -118,90 +83,29 @@
   # };
 
   # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-    
-    displayManager = {
-      startx.enable = true;
-    };
+  # services.xserver.enable = true;
 
-    windowManager.awesome = {
-      enable = true;
-      luaModules = with pkgs.luaPackages; [
-        luarocks # is the package manager for Lua modules
-        luadbi-mysql # Database abstraction layer
-      ];
-    };
-  };
-  services.xserver.autorun = false;
 
-  # GPU Drivers: Optimus Laptop Config
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.enable = true;
-  #hardware.opengl.driSupport32Bit = true; # Seems to cause screen flickering on nvidia card. Proton seems to work fine without it.
-  hardware.nvidia = {
-    modesetting.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-    prime.sync.enable = true; # nvidia driver always on
-    prime.offload.enable = false; # Mutually exclusive with sync mode, will prioritize integrated gpu.
-    #powerManagement.enable = false;
-    prime.nvidiaBusId = "PCI:1:0:0";
-    prime.intelBusId = "PCI:0:2:0";
-  };
+  
 
   # Configure keymap in X11
-  services.xserver.layout = "us";
+  # services.xserver.layout = "us";
   # services.xserver.xkbOptions = {
   #   "eurosign:e";
   #   "caps:escape" # map caps to escape.
   # };
 
   # Enable CUPS to print documents.
-  services.avahi.enable = true;
-  services.avahi.openFirewall = true;
-  services.avahi.nssmdns = true;
-  services.printing = {
-    enable = true;
-    drivers = [ pkgs.hplip ];
-  };
+  # services.printing.enable = true;
 
   # Enable sound.
-  # rtkit is optional but recommended
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-  };
+  # sound.enable = true;
+  # hardware.pulseaudio.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput = {
-    enable = true;
-    #mouse.accelProfile = "flat";
-    #mouse.accelSpeed = "-1";
-    #mouse.dev = "/dev/input/by-id/usb-Ploopy_Corporation_Trackball-if02-event-mouse"
-    #mouse.naturalScrolling = false;
-    #mouse.transformationMatrix = "1.0 0 0 0 1.0 0 0 0 1.00"
-
-    # see 'man libinput' for available options:
-    #mouse.additionalOptions = ''
-    #  Option "DragLockButtons"\n
-    #  Option AccelProfile "flat"\n
-    #  Option AccelSpeed -1\n
-    #  '';
-  };
-
-  # See source code at: https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/security/sudo.nix
-  security.sudo = {
-    enable = true;
-    # extraRules = [
-    #   "Defaults:justinr timestamp_timeout=60"
-    # ];
-  };
-
-  # set default interactive shell
+  # services.xserver.libinput.enable = true;
+  
+  # set default shell
   programs.zsh = {
     enable = true;
     enableBashCompletion = true;
@@ -209,67 +113,14 @@
     autosuggestions.enable = true;
     autosuggestions.async = true;
     syntaxHighlighting.enable = true;
-
   };
   users.defaultUserShell = pkgs.zsh;
   environment.shells = with pkgs; [ zsh ];
 
-  fonts.fonts = with pkgs; [
-    dina-font
-    fira # Provides "Fira Sans" to doomemacs
-    fira-code # Provides "Fira Code" to doomemacs
-    fira-code-symbols
-    liberation_ttf
-    mplus-outline-fonts.githubRelease
-    nerdfonts
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    proggyfonts
-  ];
-
-  xdg.mime = {
-    enable = true;
-    addedAssociations = { };
-    defaultApplications = {
-      "text/mml" = "qutebrowser.desktop";
-      "text/xml" = "qutebrowser.desktop";
-      "text/html" = "qutebrowser.desktop";
-      "x-scheme-handler/http" = "qutebrowser.desktop";
-      "x-scheme-handler/https" = "qutebrowser.desktop";
-      #"application/pdf" = "zathura.desktop";
-      #"x-scheme-handler/mailto" = "mu.desktop";
-      #"application/x-krita" = "org.kde.krita.desktop";
-      "x-scheme-handler/about" = "qutebrowser.desktop";
-      "x-scheme-handler/unknown" = "qutebrowser.desktop";
-      #"x-scheme-handler/magnet" = "rtorrent.desktop";
-    };
-    removedAssociations = {
-      "x-scheme-handler/http" = "firefox.desktop";
-      "x-scheme-handler/https" = "firefox.desktop";
-      "x-scheme-handler/about" = "firefox.desktop";
-      "x-scheme-handler/unknown" = "firefox.desktop";
-      "application/xhtml+xml" = "firefox.desktop";
-    };
-  };
-
-  xdg.portal = {
-    enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gnome
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-kde
-    ];
-    lxqt.enable = true;
-    wlr.enable = true;
-  };
-
-  # Steam - unfree
-  hardware.steam-hardware.enable = true;
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
+  # set environment variables
+  environment.variables = {
+    EDITOR = "spacevim";
+    VISUAL = "spacevim";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -278,40 +129,10 @@
     home = "/home/justinr";
     shell = pkgs.zsh;
     uid = 1000;
-    extraGroups = [ "audio" "libvirtd" "networkmanager" "wheel" ]; # Enable ‘sudo’ for the user.
-    # openssh.authorizedKeys.keys = [ "ssh-dss AAAAB3Nza... alice@foobar" ];
+    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      bc
-      blender
-      discord # unfree
-      feh
-      #fractal # Matrix client written in rust
-      gnucash
-      godot
-      hplip
-      imagemagick
-      isync
-      libreoffice
-      looking-glass-client # GPU Passthrough without an external monitor!
-      lutris
-      monado # open source xr runtime
-      mpv
-      mu
-      #mupdf
-      ncspot
-      newsboat
-      pass
-      pulsemixer
-      qutebrowser
-      ranger
-      rofi
-      rofi-pass
-      sidequest
-      sxiv
-      ueberzug
-      youtube-dl
-      xclip
-      zathura
+      #firefox
+      #thunderbird
     ];
   };
 
@@ -322,60 +143,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    alacritty
-    clang
-    clippy # rust code linter
-    cmake
-    coreutils
-    curl
-    #direnv # Run 'nix develop' automatically when you cd into project directory (autoloads nix environment)
-    emacs
-    emacsPackages.async
-    emacsPackages.elfeed
-    emacsPackages.helm
-    emacsPackages.magit
-    emacsPackages.org
-    emacsPackages.org-roam
-    emacsPackages.ranger
-    emacsPackages.sqlite3
-    emacsPackages.tramp
-    emacsPackages.tree-sitter
-    emacsPackages.treemacs
-    emacsPackages.treeview
-    emacsPackages.vterm
-    fd # file indexer, improves performance in doom emacs
-    gcc
     git
-    git-crypt
-    gnumake
-    htop
-    lua
-    man
-    neofetch
-    #nix-direnv # helps with caching for 'direnv'
-    pciutils
-    pinentry
-    polkit
-    python3
-    ripgrep
-    rust-analyzer # rust language server
-    rustfmt # rust code formatter
-    rustup # rust toolchain installer
-    sbcl
-    spacevim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    ranger
     sshfs
-    sumneko-lua-language-server
-    system76-firmware
-    system76-keyboard-configurator # allows you to customize laptop keyboard as well!
-    tldr
-    unzip
-    usbutils
-    virt-manager
-    # wget
-    wine
-    winetricks
-    wine-staging
-    wine-wayland
+    spacevim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #wget
     zsh-nix-shell
   ];
 
@@ -385,37 +157,13 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-    pinentryFlavor = "gnome3";
   };
 
   # List services that you want to enable:
 
-  # Redshift
-  location = {
-    latitude = 33.4483771;
-    longitude = -112.0740373;
-  };
-  services.redshift = {
-    enable = true;
-    package = pkgs.redshift;
-    #executable = "/run/current-system/sw/bin/redshift"; # default is "/bin/redshift"
-    temperature.day = 5500;
-    temperature.night = 2000;
-  };
-
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.openssh.permitRootLogin = "no";
-
-  # Crypto Support
-  services.trezord.enable = true;
-
-  # Emacs Daemon
-  services.emacs = {
-    enable = true;
-    package = pkgs.emacs;
-    defaultEditor = true; # set emacsclient as the default editor using the EDITOR environment variable.
-  };
+  #services.openssh.permitRootLogin = "no";
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -437,4 +185,3 @@
   system.stateVersion = "22.11"; # Did you read the comment?
 
 }
-
