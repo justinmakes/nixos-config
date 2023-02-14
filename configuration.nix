@@ -10,6 +10,7 @@
       ./hardware-configuration.nix
       ./nut.nix
       ./suckless.nix
+      ./lutris.nix
     ];
 
   nixpkgs.config.allowUnfree = true; # required for nvidia drivers
@@ -293,7 +294,6 @@
       isync
       libreoffice
       looking-glass-client # GPU Passthrough without an external monitor!
-      lutris
       monado # open source xr runtime
       mpv
       mu
