@@ -338,6 +338,7 @@
     emacsPackages.org
     emacsPackages.org-roam
     emacsPackages.ranger
+    emacsPackages.ripgrep
     emacsPackages.sqlite3
     emacsPackages.tramp
     emacsPackages.tree-sitter
