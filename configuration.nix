@@ -157,7 +157,7 @@
   #   "caps:escape" # map caps to escape.
   # };
 
-  # Enable CUPS to print documents.
+  # Enable CUPS and AVAHI for network printing.
   services.avahi.enable = true;
   services.avahi.openFirewall = true;
   services.avahi.nssmdns = true;
