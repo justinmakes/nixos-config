@@ -313,7 +313,7 @@
       #mupdf
       ncspot
       newsboat
-      nyxt
+      #nyxt
       pass
       pulsemixer
       qutebrowser
