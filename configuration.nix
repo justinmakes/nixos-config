@@ -254,10 +254,8 @@
       # "x-scheme-handler/magnet" = "rtorrent.desktop";
     };
     removedAssociations = {
-      "x-scheme-handler/http" = "nyxt.desktop";
-      "x-scheme-handler/https" = "nyxt.desktop";
-      "x-scheme-handler/http" = "firefox.desktop";
-      "x-scheme-handler/https" = "firefox.desktop";
+      "x-scheme-handler/http" = "firefox.desktop;nyxt.desktop";
+      "x-scheme-handler/https" = "firefox.desktop;nyxt.desktop";
       # "x-scheme-handler/about" = "firefox.desktop";
       # "x-scheme-handler/unknown" = "firefox.desktop";
       # "application/xhtml+xml" = "firefox.desktop";
