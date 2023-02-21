@@ -336,6 +336,7 @@
     emacsPackages.elfeed
     emacsPackages.helm
     emacsPackages.magit
+    emacsPackages.mpv
     emacsPackages.org
     emacsPackages.org-roam
     emacsPackages.ranger
