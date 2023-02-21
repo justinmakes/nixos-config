@@ -298,6 +298,7 @@
       blender
       discord # unfree
       feh
+      #firefox
       #fractal # Matrix client written in rust
       gnucash
       godot
