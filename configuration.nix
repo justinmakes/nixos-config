@@ -235,27 +235,32 @@
 
   xdg.mime = {
     enable = true;
-    addedAssociations = { };
-    defaultApplications = {
-      "text/mml" = "qutebrowser.desktop";
-      "text/xml" = "qutebrowser.desktop";
-      "text/html" = "qutebrowser.desktop";
+    addedAssociations = {
       "x-scheme-handler/http" = "qutebrowser.desktop";
       "x-scheme-handler/https" = "qutebrowser.desktop";
-      "x-scheme-handler/about" = "qutebrowser.desktop";
-      "x-scheme-handler/unknown" = "qutebrowser.desktop";
-      "x-scheme-handler/sidequest" = "SideQuest.desktop";
-      #"application/pdf" = "zathura.desktop";
-      #"x-scheme-handler/mailto" = "mu.desktop";
-      #"application/x-krita" = "org.kde.krita.desktop";
-      #"x-scheme-handler/magnet" = "rtorrent.desktop";
+    };
+    defaultApplications = {
+      "x-scheme-handler/http" = "qutebrowser.desktop";
+      "x-scheme-handler/https" = "qutebrowser.desktop";
+      # "text/mml" = "qutebrowser.desktop";
+      # "text/xml" = "qutebrowser.desktop";
+      # "text/html" = "qutebrowser.desktop";
+      # "x-scheme-handler/about" = "qutebrowser.desktop";
+      # "x-scheme-handler/unknown" = "qutebrowser.desktop";
+      # "x-scheme-handler/sidequest" = "SideQuest.desktop";
+      # "application/pdf" = "zathura.desktop";
+      # "x-scheme-handler/mailto" = "mu.desktop";
+      # "application/x-krita" = "org.kde.krita.desktop";
+      # "x-scheme-handler/magnet" = "rtorrent.desktop";
     };
     removedAssociations = {
+      "x-scheme-handler/http" = "nyxt.desktop";
+      "x-scheme-handler/https" = "nyxt.desktop";
       "x-scheme-handler/http" = "firefox.desktop";
       "x-scheme-handler/https" = "firefox.desktop";
-      "x-scheme-handler/about" = "firefox.desktop";
-      "x-scheme-handler/unknown" = "firefox.desktop";
-      "application/xhtml+xml" = "firefox.desktop";
+      # "x-scheme-handler/about" = "firefox.desktop";
+      # "x-scheme-handler/unknown" = "firefox.desktop";
+      # "application/xhtml+xml" = "firefox.desktop";
     };
   };
 
