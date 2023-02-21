@@ -240,6 +240,7 @@
       "x-scheme-handler/https" = "qutebrowser.desktop";
       "x-scheme-handler/about" = "qutebrowser.desktop";
       "x-scheme-handler/unknown" = "qutebrowser.desktop";
+      "x-scheme-handler/sidequest=SideQuest.desktop";
       #"application/pdf" = "zathura.desktop";
       #"x-scheme-handler/mailto" = "mu.desktop";
       #"application/x-krita" = "org.kde.krita.desktop";
