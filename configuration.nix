@@ -229,6 +229,10 @@
     proggyfonts
   ];
 
+  environment.sessionVariables = {
+    DEFAULT_BROWSER = "${pkgs.qutebrowser}/bin/qutebrowser"
+  };
+
   xdg.mime = {
     enable = true;
     addedAssociations = { };
