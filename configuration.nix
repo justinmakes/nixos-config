@@ -323,6 +323,7 @@
       rofi-pass
       sidequest
       sxiv
+      trezor-suite
       ueberzug
       youtube-dl
       xclip
