@@ -138,16 +138,20 @@
 
   # GPU Drivers: Optimus Laptop Config
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.enable = true;
-  #hardware.opengl.driSupport32Bit = true; # Seems to cause screen flickering on nvidia card. Proton seems to work fine without it.
-  hardware.nvidia = {
-    modesetting.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-    prime.sync.enable = true; # nvidia driver always on
-    prime.offload.enable = false; # Mutually exclusive with sync mode, will prioritize integrated gpu.
-    #powerManagement.enable = false;
-    prime.nvidiaBusId = "PCI:1:0:0";
-    prime.intelBusId = "PCI:0:2:0";
+  hardware = {
+    opengl.enable = true;
+    opengl.driSupport32Bit = true; # Required for steam
+    pulseaudio.support32Bit = true; # Required for steam
+    steam-hardware.enable = true; # Required for steam
+    nvidia = {
+      modesetting.enable = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      prime.sync.enable = true; # nvidia driver always on
+      prime.offload.enable = false; # Mutually exclusive with sync mode, will prioritize integrated gpu.
+      #powerManagement.enable = false;
+      prime.nvidiaBusId = "PCI:1:0:0";
+      prime.intelBusId = "PCI:0:2:0";
+    };
   };
 
   # Configure keymap in X11
@@ -278,7 +282,6 @@
   };
 
   # Steam - unfree
-  hardware.steam-hardware.enable = true;
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
