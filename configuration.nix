@@ -349,21 +349,21 @@
     curl
     #direnv # Run 'nix develop' automatically when you cd into project directory (autoloads nix environment)
     emacs
-    emacsPackages.async
-    emacsPackages.elfeed
-    emacsPackages.helm
-    emacsPackages.magit
-    emacsPackages.mpv
-    emacsPackages.org
-    emacsPackages.org-roam
-    emacsPackages.ranger
-    emacsPackages.ripgrep
-    emacsPackages.sqlite3
-    emacsPackages.tramp
-    emacsPackages.tree-sitter
-    emacsPackages.treemacs
-    emacsPackages.treeview
-    emacsPackages.vterm
+    #emacsPackages.async
+    #emacsPackages.elfeed
+    #emacsPackages.helm
+    #emacsPackages.magit
+    #emacsPackages.mpv
+    #emacsPackages.org
+    #emacsPackages.org-roam
+    #emacsPackages.ranger
+    #emacsPackages.ripgrep
+    #emacsPackages.sqlite3
+    #emacsPackages.tramp
+    #emacsPackages.tree-sitter
+    #emacsPackages.treemacs
+    #emacsPackages.treeview
+    #emacsPackages.vterm
     fd # file indexer, improves performance in doom emacs
     gcc
     git
