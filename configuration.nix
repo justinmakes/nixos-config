@@ -356,7 +356,7 @@
     gcc
     git
     git-crypt
-    glslang
+    glslang # for C language server
     gnumake
     htop
     lua
@@ -369,7 +369,6 @@
     pinentry
     pipenv # python development
     polkit
-    #python3
     ripgrep
     rust-analyzer # rust language server
     rustfmt # rust code formatter
