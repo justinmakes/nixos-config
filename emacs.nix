@@ -2,7 +2,6 @@
 let
   my-emacs-packages = p: with p; [
     gdscript-mode
-    pipenv
     # other emacs packages
   ];
 in {
@@ -10,3 +9,5 @@ in {
     (pkgs.emacs.withPackages my-emacs-packages)
   ];
 }
+
+# NOTE: 'emacs' does not have the 'withPackages' property!
