@@ -4,6 +4,7 @@ let
     #gdtoolkit
     isort
     nose
+    #pip # required by gdtoolkit
     pytest
     setuptools
     # other python packages
