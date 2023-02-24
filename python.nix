@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 let
   my-python-packages = p: with p; [
+    #gdtoolkit
     isort
     nose
     pytest

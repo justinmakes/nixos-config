@@ -7,6 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
+      #./emacs.nix
       ./hardware-configuration.nix
       #./lutris.nix
       ./nut.nix
