@@ -5,6 +5,7 @@ let
     isort
     nose
     #pip # required by gdtoolkit
+    pygame
     pytest
     setuptools
     # other python packages
