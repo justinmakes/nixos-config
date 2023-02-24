@@ -8,9 +8,10 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./nut.nix
-      ./suckless.nix
       #./lutris.nix
+      ./nut.nix
+      ./python.nix
+      ./suckless.nix
     ];
 
   nixpkgs.config.allowUnfree = true; # required for nvidia drivers
@@ -305,6 +306,7 @@
       #fractal # Matrix client written in rust
       gnucash
       godot
+      graphviz
       hplip
       imagemagick
       isync
@@ -348,41 +350,32 @@
     coreutils
     curl
     #direnv # Run 'nix develop' automatically when you cd into project directory (autoloads nix environment)
+    discount # markdown compiler
     emacs
-    #emacsPackages.async
-    #emacsPackages.elfeed
-    #emacsPackages.helm
-    #emacsPackages.magit
-    #emacsPackages.mpv
-    #emacsPackages.org
-    #emacsPackages.org-roam
-    #emacsPackages.ranger
-    #emacsPackages.ripgrep
-    #emacsPackages.sqlite3
-    #emacsPackages.tramp
-    #emacsPackages.tree-sitter
-    #emacsPackages.treemacs
-    #emacsPackages.treeview
-    #emacsPackages.vterm
     fd # file indexer, improves performance in doom emacs
     gcc
     git
     git-crypt
+    glslang
     gnumake
     htop
     lua
     man
     neofetch
     #nix-direnv # helps with caching for 'direnv'
+    nixfmt
+    nodejs
     pciutils
     pinentry
+    pipenv # python development
     polkit
-    python3
+    #python3
     ripgrep
     rust-analyzer # rust language server
     rustfmt # rust code formatter
     rustup # rust toolchain installer
     sbcl
+    shellcheck # shell script linter
     spacevim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     sshfs
     sumneko-lua-language-server
