@@ -420,6 +420,7 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.permitRootLogin = "no";
+  services.openssh.passwordAuthentication = false;
 
   # Crypto Support
   services.trezord.enable = true;
