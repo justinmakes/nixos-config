@@ -370,7 +370,6 @@
     pinentry
     pipenv # python development
     polkit
-    poppler # pdf rendering library
     ripgrep
     rust-analyzer # rust language server
     rustfmt # rust code formatter
