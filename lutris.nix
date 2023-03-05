@@ -10,7 +10,8 @@
     (lutris.override {
        extraPkgs = pkgs: [
          # List package dependencies here
-         curl
+         pkgs.libnghttp2 # fix for lutris curl error: https://github.com/NixOS/nixpkgs/issues/214375#issuecomment-1454978126
+         #curl
          #pkgs.nghttp2
        ];
     })

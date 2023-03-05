@@ -9,7 +9,7 @@
     [ # Include the results of the hardware scan.
       #./emacs.nix
       ./hardware-configuration.nix
-      #./lutris.nix
+      ./lutris.nix
       ./nut.nix
       ./python.nix
       ./suckless.nix
@@ -313,7 +313,6 @@
       isync
       libreoffice
       looking-glass-client # GPU Passthrough without an external monitor!
-      lutris
       monado # open source xr runtime
       mpv
       mu
