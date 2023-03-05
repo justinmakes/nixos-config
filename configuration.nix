@@ -353,6 +353,7 @@
     htop
     lua
     man
+    mold # A faster drop-in replacement for existing Unix linkers
     neofetch
     #nix-direnv # helps with caching for 'direnv'
     nixfmt
