@@ -11,11 +11,18 @@
        extraPkgs = pkgs: [
          # List package dependencies here
          pkgs.libnghttp2 # fix for lutris curl error: https://github.com/NixOS/nixpkgs/issues/214375#issuecomment-1454978126
-         #curl
-         #pkgs.nghttp2
+           # NOTE: Make sure you delete ~/.local/share/lutris
        ];
     })
   ];
+
+  # Steam - unfree
+  hardware.steam-hardware.enable = true; # Required for steam
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+  };
 
   systemd.extraConfig = ''
     DefaultLimitNOFILE=1048576

@@ -9,7 +9,7 @@
     [ # Include the results of the hardware scan.
       #./emacs.nix
       ./hardware-configuration.nix
-      ./lutris.nix
+      ./gaming.nix
       ./nut.nix
       ./python.nix
       ./suckless.nix
@@ -144,7 +144,6 @@
     opengl.enable = true;
     opengl.driSupport32Bit = true; # Required for steam
     pulseaudio.support32Bit = true; # Required for steam
-    steam-hardware.enable = true; # Required for steam
     nvidia = {
       modesetting.enable = true;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
@@ -281,13 +280,6 @@
     ];
     lxqt.enable = true;
     wlr.enable = true;
-  };
-
-  # Steam - unfree
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
