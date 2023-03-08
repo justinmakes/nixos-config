@@ -32,12 +32,4 @@
   systemd.user.extraConfig = ''
     DefaultLimitNOFILE=1048576
   '';
-
-  # StarCitizen Lutris EAC workaround:
-  # WARNING: THIS CAN GET YOU BANNED FROM MULTIPLAYER GAMES! THIS IS NOT A PERMANENT SOLUTION!
-  # networking.extraHosts =
-  #   ''
-  #     127.0.0.1 modules-cdn.eac-prod.on.epicgames.com
-  #   '';
-
 }
