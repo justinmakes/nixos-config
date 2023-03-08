@@ -14,6 +14,7 @@
            # NOTE: Make sure you delete ~/.local/share/lutris
        ];
     })
+    mangohud
   ];
 
   # Steam - unfree
