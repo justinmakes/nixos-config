@@ -396,7 +396,7 @@
 
   ### List services that you want to enable:
   # Flatpak
-  services.flatpak.enable = true;
+  # services.flatpak.enable = true;
 
   # Redshift
   location = {
