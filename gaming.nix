@@ -17,6 +17,12 @@
     mangohud
   ];
 
+  # StarCitizen Lutris EAC workaround:
+  networking.extraHosts =
+    ''
+      127.0.0.1 modules-cdn.eac-prod.on.epicgames.com
+    '';
+
   # Steam - unfree
   hardware.steam-hardware.enable = true; # Required for steam
   programs.steam = {
