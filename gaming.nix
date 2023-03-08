@@ -17,12 +17,6 @@
     mangohud
   ];
 
-  # StarCitizen Lutris EAC workaround:
-  networking.extraHosts =
-    ''
-      127.0.0.1 modules-cdn.eac-prod.on.epicgames.com
-    '';
-
   # Steam - unfree
   hardware.steam-hardware.enable = true; # Required for steam
   programs.steam = {
@@ -38,4 +32,12 @@
   systemd.user.extraConfig = ''
     DefaultLimitNOFILE=1048576
   '';
+
+  # StarCitizen Lutris EAC workaround:
+  # WARNING: THIS CAN GET YOU BANNED FROM MULTIPLAYER GAMES! THIS IS NOT A PERMANENT SOLUTION!
+  # networking.extraHosts =
+  #   ''
+  #     127.0.0.1 modules-cdn.eac-prod.on.epicgames.com
+  #   '';
+
 }
