@@ -394,7 +394,9 @@
     pinentryFlavor = "gnome3";
   };
 
-  # List services that you want to enable:
+  ### List services that you want to enable:
+  # Flatpak
+  services.flatpak.enable = true;
 
   # Redshift
   location = {
