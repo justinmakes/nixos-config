@@ -336,7 +336,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     alacritty
-    bottles
     clang
     clippy # rust code linter
     cmake
@@ -397,7 +396,7 @@
 
   ### List services that you want to enable:
   # Flatpak
-  # services.flatpak.enable = true;
+  services.flatpak.enable = true;
 
   # Redshift
   location = {
