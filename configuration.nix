@@ -336,7 +336,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     alacritty
-    bottles
+    # bottles # Cannot install dependencies!
     clang
     clippy # rust code linter
     cmake
