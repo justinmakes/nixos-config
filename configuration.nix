@@ -336,6 +336,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     alacritty
+    bottles
     clang
     clippy # rust code linter
     cmake
