@@ -9,7 +9,7 @@
     [ # Include the results of the hardware scan.
       #./emacs.nix
       ./hardware-configuration.nix
-      ./gaming.nix
+      #./gaming.nix # just use flatpak for gaming
       ./nut.nix
       ./python.nix
       ./suckless.nix
@@ -144,6 +144,7 @@
     opengl.enable = true;
     opengl.driSupport32Bit = true; # Required for steam
     pulseaudio.support32Bit = true; # Required for steam
+    steam-hardware.enable = true; # Required for steam
     nvidia = {
       modesetting.enable = true;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
@@ -293,7 +294,6 @@
     packages = with pkgs; [
       bc
       blender
-      discord # unfree
       feh
       #firefox
       #fractal # Matrix client written in rust
@@ -336,7 +336,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     alacritty
-    bottles # Cannot install dependencies!
     clang
     clippy # rust code linter
     cmake
@@ -379,10 +378,6 @@
     usbutils
     virt-manager
     # wget
-    wine
-    winetricks
-    wine-staging
-    wine-wayland
     zsh-nix-shell
   ];
 
