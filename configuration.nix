@@ -144,7 +144,7 @@
     opengl.enable = true;
     opengl.driSupport32Bit = true; # Required for steam
     pulseaudio.support32Bit = true; # Required for steam
-    steam-hardware.enable = true; # Required for steam
+    steam-hardware.enable = true; # Steam udev rules for controllers and vr headsets
     nvidia = {
       modesetting.enable = true;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
