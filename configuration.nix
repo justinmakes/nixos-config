@@ -378,6 +378,8 @@
     usbutils
     virt-manager
     # wget
+    ## system communication with sandboxed flatpak apps:
+    xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-gnome xdg-desktop-portal-kde xdg-desktop-portal-wlr
     zsh-nix-shell
   ];
 
