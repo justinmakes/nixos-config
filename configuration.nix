@@ -378,6 +378,7 @@
     usbutils
     virt-manager
     # wget
+    xdg-user-dirs # manage xdg default directories
     zsh-nix-shell
   ];
 
