@@ -19,6 +19,10 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # Set kernel version
+  #boot.kernelPackages = pkgs.linuxPackages_latest; # bleeding edge kernel!
+  #boot.kernelPackages = pkgs.linuxKernel.packages.linux_5_15; # use specific kernel
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
