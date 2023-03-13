@@ -345,6 +345,7 @@
     discount # markdown compiler
     emacs
     fd # file indexer, improves performance in doom emacs
+    flatpak-builder
     gcc
     git
     git-crypt
